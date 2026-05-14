@@ -1,7 +1,7 @@
 from random import Random
 from unittest import TestCase
 
-from earch2064.core import (
+from earth2064.core import (
     GameRules,
     accrue_turns,
     build,

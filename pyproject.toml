@@ -1,12 +1,13 @@
 [project]
-name = "earch2064"
+name = "earth2064"
 version = "0.1.0"
-description = "Local server prototype for the Earch 2064 strategy game."
+description = "Local server prototype for the Earth 2064 strategy game."
 requires-python = ">=3.10"
 dependencies = []
 
 [project.scripts]
-earch2064 = "earch2064.server:main"
+earth2064 = "earth2064.server:main"
+earch2064 = "earth2064.server:main"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

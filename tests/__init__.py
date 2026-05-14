@@ -1,1 +1,1 @@
-"""Tests for the Earch 2064 prototype."""
+"""Tests for the Earth 2064 prototype."""

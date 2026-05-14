@@ -1,17 +1,17 @@
-# Earch 2064
+# Earth 2064
 
-**Earch 2064** is a persistent, text-first strategy game inspired by classic
+**Earth 2064** is a persistent, text-first strategy game inspired by classic
 browser nation games such as Earth 2025, but designed from the start to be
 playable from both retro computers and modern systems.
 
-The goal is not to recreate Earth 2025 exactly. Earch 2064 should be its own
+The goal is not to recreate Earth 2025 exactly. Earth 2064 should be its own
 game: familiar in spirit, simple to access, easy to read in 40 columns, and
 deep enough to support long-running multiplayer rounds, diplomacy, trade,
 conflict, and community.
 
 ## Core Idea
 
-Earch 2064 is a post-collapse country strategy game.
+Earth 2064 is a post-collapse country strategy game.
 
 Each player controls a small country trying to survive and grow in a damaged
 future world. Players manage land, population, food, money, buildings,
@@ -69,7 +69,7 @@ A text-first interface makes the game accessible to old and new machines at the
 same time.
 
 A C64 player, an Amiga player, and a modern browser player should all be able
-to participate in the same game world. Since Earch 2064 is turn-based and
+to participate in the same game world. Since Earth 2064 is turn-based and
 strategic rather than reflex-based, no platform should have a major mechanical
 advantage.
 
@@ -89,7 +89,7 @@ no required ANSI escape codes
 Example:
 
 ```text
-EARCH 2064
+EARTH 2064
 
 1 COUNTRY
 2 BUILD
@@ -105,7 +105,7 @@ EARCH 2064
 
 ## Architecture
 
-Earch 2064 should be built in layers.
+Earth 2064 should be built in layers.
 
 ```text
 Game Core
@@ -258,7 +258,7 @@ special event round: weekend
 
 ## Community Features
 
-Earch 2064 should also be a meeting place for retro-computing players.
+Earth 2064 should also be a meeting place for retro-computing players.
 
 Possible community features:
 
@@ -329,7 +329,7 @@ play.
 
 ## Relationship to Earth 2025
 
-Earch 2064 is inspired by the feeling of Earth 2025 and similar old browser
+Earth 2064 is inspired by the feeling of Earth 2025 and similar old browser
 strategy games.
 
 However:
@@ -340,7 +340,7 @@ However:
 - It should use its own rules, naming, balance, and fiction.
 
 Useful public references include Earth Empires documentation and old player
-guides, but Earch 2064 should become its own design.
+guides, but Earth 2064 should become its own design.
 
 ## Research Notes
 
@@ -394,16 +394,22 @@ The repository now contains a small Python server prototype using only the
 standard library:
 
 ```text
-Game core     earch2064/core.py
-SQLite store  earch2064/db.py
-TCP server    earch2064/server.py
-Web status    earch2064/web.py
+Game core     earth2064/core.py
+SQLite store  earth2064/db.py
+TCP server    earth2064/server.py
+Web status    earth2064/web.py
 ```
 
 Start it locally:
 
 ```sh
-python3 -m earch2064 --db var/earch2064.sqlite --turn-seconds 60
+./start.sh
+```
+
+This runs:
+
+```sh
+python3 -m earth2064 --db var/prototype.sqlite --turn-seconds 60 --port 2064 --http-port 8080
 ```
 
 Connect with a line terminal:
@@ -438,6 +444,114 @@ Run the current tests:
 python3 -m unittest discover
 ```
 
+## VICE and CCGMS
+
+https://github.com/mist64/ccgmsterm/releases/tag/v0.2
+
+The tested local retro setup is:
+
+```text
+Earth 2064 server
+  -> tcpser modem emulator
+  -> VICE userport RS232
+  -> CCGMS terminal
+```
+
+Start these pieces in separate terminal windows.
+
+First, start Earth:
+
+```sh
+./start.sh
+```
+
+Second, start `tcpser`:
+
+```sh
+./tcpser.sh
+```
+
+This listens for VICE on port `25232` and maps the dial number `2064` to
+`127.0.0.1:2064`, so CCGMS does not need to type an IP address or colon.
+
+Third, start VICE:
+
+```sh
+./vice.sh
+```
+
+Then load CCGMS in VICE.
+
+In CCGMS:
+
+```text
+F7 Dialer/Params
+Modem/Userport RS232
+Baud 2400
+Duplex Half
+F8 Switch terms until ASCII Mode
+```
+
+`Duplex Half` makes CCGMS show the characters you type locally. If typed text
+appears doubled, switch back to `Duplex Full`.
+
+From the CCGMS terminal screen, test the modem:
+
+```text
+AT
+```
+
+Expected response:
+
+```text
+OK
+```
+
+Then dial Earth:
+
+```text
+ATDT2064
+```
+
+Expected response:
+
+```text
+CONNECT 2400
+
+EARTH 2064
+LOCAL SERVER PROTOTYPE
+
+Type HELP.
+
+>
+```
+
+Useful first commands after connecting:
+
+```text
+HELP
+LOGIN demo swordfish
+STATUS
+SCORES
+NEWS
+```
+
+Test account:
+
+```text
+LOGIN demo swordfish
+```
+
+If CCGMS reaches `CONNECT` but commands do not respond, make sure the server is
+running the current code. Earth accepts C64-style `CR`, Unix `LF`, and `CRLF`
+line endings.
+
+If `AT` does not return `OK`, VICE is not connected to `tcpser`. Restart VICE
+with `./vice.sh` and restart `tcpser` with `./tcpser.sh`.
+
+If `ATDT2064` returns `NO CARRIER`, `tcpser` is running but cannot reach the
+Earth server. Restart Earth with `./start.sh`.
+
 ## Technical Preferences
 
 A good initial stack could be:
@@ -461,7 +575,7 @@ without running a server.
 
 ## Project Spirit
 
-Earch 2064 should feel like a game from an alternate timeline where 80s and 90s
+Earth 2064 should feel like a game from an alternate timeline where 80s and 90s
 machines never stopped talking to each other.
 
 It should be simple enough to play from a C64, but interesting enough that

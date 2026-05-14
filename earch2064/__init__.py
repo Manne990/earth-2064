@@ -1,3 +1,5 @@
-"""Earch 2064 local server prototype."""
+"""Compatibility package for the old project name."""
 
-__version__ = "0.1.0"
+from earth2064 import __version__
+
+__all__ = ["__version__"]
