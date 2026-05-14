@@ -1,7 +1,7 @@
 import asyncio
 from unittest import TestCase
 
-from earth2064.server import TerminalSession
+from earth2064.server import BUILD_MENU, MAIN_MENU, TerminalSession, menu_choice
 
 
 class FakeWriter:
@@ -30,3 +30,15 @@ class TerminalInputTests(TestCase):
 
     def test_reads_crlf_terminated_commands(self) -> None:
         self.assertEqual(self.read_line(b"HELP\r\n"), "HELP")
+
+    def test_main_menu_has_earthlike_browser_shape(self) -> None:
+        labels = [item[1] for item in MAIN_MENU]
+
+        self.assertEqual(labels[:4], ["ADVISOR", "BUILD", "CASH", "EXPLORE"])
+        self.assertIn("WAR ROOM", labels)
+        self.assertIn("SCORES", labels)
+
+    def test_build_menu_numeric_choices_map_to_buildings(self) -> None:
+        self.assertEqual(menu_choice(BUILD_MENU, "1")[1], "farms")
+        self.assertEqual(menu_choice(BUILD_MENU, "5")[1], "labs")
+        self.assertIsNone(menu_choice(BUILD_MENU, "9"))

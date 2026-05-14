@@ -426,7 +426,18 @@ COUNTRY North Demo
 STATUS
 EXPLORE 3
 BUILD FARMS 10
+BUILD LABS 5
 CASH 5
+RESEARCH BUSINESS 5
+ALLOC 25 25 25 25
+PRODUCE 5
+MARKET
+BUY FOOD 100
+SELL OIL 10
+ATTACK 2 STANDARD
+SPY 2 INTEL
+MISSILE 2 CRUISE
+ALLY 2
 SCORES
 NEWS
 QUIT
@@ -532,9 +543,40 @@ Useful first commands after connecting:
 HELP
 LOGIN demo swordfish
 STATUS
+MENU
+2
+1 5
+B
+5
+1 10
+B
+6
+1 3
+B
+7
+1 3
 SCORES
 NEWS
 ```
+
+After login, the terminal presents an Earth-style menu:
+
+```text
+1 ADVISOR
+2 BUILD
+3 CASH
+4 EXPLORE
+5 MARKET
+6 RESEARCH
+7 MILITARY
+8 WAR ROOM
+9 NEWS
+0 SCORES
+```
+
+Inside submenus, type the menu number followed by an amount. For example, in
+`BUILD`, `1 25` builds 25 farms. `B` returns to the main menu. Direct commands
+such as `BUILD FARMS 25` and `RESEARCH BUSINESS 10` still work.
 
 Test account:
 
